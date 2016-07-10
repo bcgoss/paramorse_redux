@@ -89,7 +89,7 @@ o_to_x = {
 "u"=>"1010111",
 "v"=>"101010111",
 "w"=>"101110111",
-"x"=>"1110101110111"
+"x"=>"11101010111"
 }
 
 d_to_n = {
@@ -127,8 +127,10 @@ a_to_j_and_5_to_0 = {
 
 result_array = []
 y_to_0.each do |foo|
-  binding.pry
-  result_array << foo[1] == full_morse_hash[foo[0]]
+  # binding.pry
+  result_array << true if foo[1] == full_morse_hash[foo[0]]
+  result_array << false if foo[1] != full_morse_hash[foo[0]]
+  # binding.pry
 end
 
 unless result_array.include?(false)
@@ -137,7 +139,11 @@ end
 
 result_array = []
 u_to_4.each do |foo|
-  result_array << foo[1] == full_morse_hash[foo[0]]
+  result_array << true if foo[1] == full_morse_hash[foo[0]]
+  if foo[1] != full_morse_hash[foo[0]]
+    result_array << false
+    puts foo[0]
+  end
 end
 
 unless result_array.include?(false)
@@ -146,7 +152,8 @@ end
 
 result_array = []
 k_to_t.each do |foo|
-  result_array << foo[1] == full_morse_hash[foo[0]]
+  result_array << true if foo[1] == full_morse_hash[foo[0]]
+  result_array << false if foo[1] != full_morse_hash[foo[0]]
 end
 
 unless result_array.include?(false)
@@ -155,7 +162,11 @@ end
 
 result_array = []
 o_to_x.each do |foo|
-  result_array << foo[1] == full_morse_hash[foo[0]]
+  result_array << true if foo[1] == full_morse_hash[foo[0]]
+  if foo[1] != full_morse_hash[foo[0]]
+    result_array << false
+    puts foo[0]
+  end
 end
 
 unless result_array.include?(false)
@@ -164,7 +175,8 @@ end
 
 result_array = []
 d_to_n.each do |foo|
-  result_array << foo[1] == full_morse_hash[foo[0]]
+  result_array << true if foo[1] == full_morse_hash[foo[0]]
+  result_array << false if foo[1] != full_morse_hash[foo[0]]
 end
 
 unless result_array.include?(false)
@@ -173,7 +185,8 @@ end
 
 result_array = []
 a_to_j_and_5_to_0.each do |foo|
-  result_array << foo[1] == full_morse_hash[foo[0]]
+  result_array << true if foo[1] == full_morse_hash[foo[0]]
+  result_array << false if foo[1] != full_morse_hash[foo[0]]
 end
 
 unless result_array.include?(false)

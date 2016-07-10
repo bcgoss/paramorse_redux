@@ -11,6 +11,16 @@ class EncodeAndDecodeTest < Minitest::Test
     encoded_string = e.encode(test_string)
     decoded_string = d.decode(encoded_string)
     assert_equal test_string, decoded_string
+
+  end
+
+  def test_decode_and_encdoe_1_char
+    e = Paramorse::Encoder.new
+    d = Paramorse::Decoder.new
+    test_string = "111"
+    decoded_string = d.decode(test_string)
+    encoded_string = e.encode(decoded_string)
+    assert_equal test_string, encoded_string
   end
 
   def test_multi_character_integration
@@ -20,6 +30,8 @@ class EncodeAndDecodeTest < Minitest::Test
     encoded_string = e.encode(test_string)
     decoded_string = d.decode(encoded_string)
     assert_equal test_string, decoded_string
+
+    assert_equal encoded_string, e.encode(d.decode(encoded_string))
   end
 
   def test_multi_words_with_spaces
@@ -27,8 +39,17 @@ class EncodeAndDecodeTest < Minitest::Test
     d = Paramorse::Decoder.new
     test_string = "rogue one"
     encoded_string = e.encode(test_string)
+    # p encoded_string
+    # binding.pry if encoded_string.include?(" ")
     decoded_string = d.decode(encoded_string)
+    # puts decoded_string
+    # binding.pry if encoded_string.include?(" ")
+
     assert_equal test_string, decoded_string
+    assert_equal encoded_string, e.encode(d.decode(encoded_string))
+    # puts encoded_string
+    # binding.pry if encoded_string.include?(" ")
+    puts
   end
 
   def test_a_sentence
@@ -40,8 +61,9 @@ class EncodeAndDecodeTest < Minitest::Test
     assert_equal test_string, decoded_string
   end
 
+
   def test_mean_stuff
-    # skip
+    skip
     e = Paramorse::Encoder.new
     d = Paramorse::Decoder.new
     test_string = "   lets see how EaSy  This Is   "

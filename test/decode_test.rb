@@ -44,7 +44,6 @@ class DecoderTest < Minitest::Test
     # skip
     d = Paramorse::Decoder.new
 
-    puts d.decode("1011101000111011101110001110111010001010111000100000011101110111000111010001")
     assert_equal "ee ee", d.decode("1000100000010001")
     assert_equal "ee ee ", d.decode("1000100000010001000000")
   end

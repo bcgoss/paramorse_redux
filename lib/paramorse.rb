@@ -92,13 +92,17 @@ module Paramorse
     end
 
     def decode(morse_sequence)
-      morse_sequence.gsub!("000000", "000 000")
-      morse_characters = morse_sequence.split("000")
-      morse_characters.map! do |character|
+      spaces_added_sequence = morse_sequence.gsub("000000", "000 000")
+      morse_characters = spaces_added_sequence.split("000")
+      decoded_characters = morse_characters.map do |character|
         @morse_hash.hash.key(character)
       end
-      morse_characters.join
+      sequence = decoded_characters.join
+      sequence = decoded_characters.join
+      sequence.delete(" ")
+      sequence
     end
+
   end
 
 
