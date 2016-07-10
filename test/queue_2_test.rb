@@ -54,8 +54,9 @@ class QueueTest < Minitest::Test
     q.push(1)
 
     assert_equal [1], q.peek(1)
-    assert_equal [0,1], q.peek(2)
+    assert_equal [1,0], q.peek(2)
     assert_equal [1,0,1], q.peek(3)
+    assert_equal [1,0,1,1], q.peek(4)
   end
 
   def test_tail_method
@@ -68,6 +69,22 @@ class QueueTest < Minitest::Test
     assert_equal [1], q.tail(1)
     assert_equal [1,1], q.tail(2)
     assert_equal [1,1,0], q.tail(3)
+  end
+
+  def test_flush_empty_queue
+    q = Paramorse::Queue.new
+
+    assert_equal [], q.flush
+  end
+
+  def test_flush_method
+    q = Paramorse::Queue.new
+    q.push(1)
+    q.push(2)
+    q.push(0)
+
+    assert_equal [1,2,0], q.flush
+    assert_equal [], q.container
   end
 
 end

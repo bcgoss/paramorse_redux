@@ -1,3 +1,4 @@
+require 'pry'
 full_morse_hash = {"a"=>"10111",
 "b"=>"111010101",
 "c"=>"11101011101",
@@ -126,6 +127,7 @@ a_to_j_and_5_to_0 = {
 
 result_array = []
 y_to_0.each do |foo|
+  binding.pry
   result_array << foo[1] == full_morse_hash[foo[0]]
 end
 

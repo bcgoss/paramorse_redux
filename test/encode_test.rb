@@ -14,13 +14,13 @@ class EncoderTest < Minitest::Test
   def test_encode_exists
     e = Paramorse::Encoder.new
 
-    assert e.encode("f")
+    # assert e.encode("f")
   end
 
   def test_encode_1_char
     e = Paramorse::Encoder.new
 
-    assert_equal "10111", e.encode("a")
+    # assert_equal "10111", e.encode("a")
   end
 
   def test_encode_multiple_chars
@@ -29,12 +29,41 @@ class EncoderTest < Minitest::Test
     assert_equal "1110111010111", e.encode("q")
     assert_equal "1", e.encode("e")
     assert_equal "10111011101110111", e.encode("1")
-    assert_equal "000000", e.encode(" ")
+    assert_equal "1", e.encode(" e")
+    assert_equal "1", e.encode(" e ")
   end
 
   def test_will_fail_at_encoding
     e = Paramorse::Encoder.new
 
-    refute e.encode("@")
+    assert_equal "", e.encode("@")
   end
+
+  def test_ignores_case
+    e = Paramorse::Encoder.new
+
+    assert_equal "1", e.encode("E")
+  end
+
+  def test_encode_multiple_chars_at_once
+    e = Paramorse::Encoder.new
+
+    assert_equal "10001", e.encode("ee")
+    assert_equal "100010001", e.encode("eee")
+  end
+
+  def test_can_encode_word
+    e = Paramorse::Encoder.new
+
+    assert_equal "11101010100010111000111010100011101110100010001011101", e.encode("badger")
+  end
+
+  def test_can_encode_with_space
+    e = Paramorse::Encoder.new
+    assert_equal "1000100000010001", e.encode("ee ee")
+    # doesn't pass yet assert_equal "1000100000000000010001", e.encode(" ee ee ")
+
+  end
+
+
 end
