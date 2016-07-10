@@ -30,7 +30,7 @@ class EncoderTest < Minitest::Test
     assert_equal "1", e.encode("e")
     assert_equal "10111011101110111", e.encode("1")
     assert_equal "1", e.encode(" e")
-    assert_equal "1", e.encode(" e ")
+    assert_equal "10000001", e.encode(" e e")
   end
 
   def test_will_fail_at_encoding

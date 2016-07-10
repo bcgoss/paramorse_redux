@@ -39,23 +39,42 @@ module Paramorse
       @queue = Queue.new
     end
 
+    # def encode(content)
+    #   content.downcase!
+    #   content.strip!
+    #   encoded_characters = ""
+    #   @queue.flush
+    #
+    #   content.chars.each do |char|
+    #     @queue.push(char)
+    #   end
+    #   @queue.container.each do |char|
+    #     encoded_characters += encode_character(char)
+    #     if @queue.container.count >1
+    #       encoded_characters += "000"
+    #     end
+    #   end
+    #   delete_trailing_zeros(encoded_characters)
+    #   encoded_characters.delete(" ")
+    # end
+
     def encode(content)
       content.downcase!
       content.strip!
-      encoded_characters = ""
-      @queue.flush
+      morse_characters = content.chars.map do |char|
+        encode_character(char)
+      end
+      morse_sequence = morse_characters.join("000")
+      morse_sequence.delete(" ")
+    end
 
-      content.chars.each do |char|
-        @queue.push(char)
+
+    def encode_character(character)
+      encoded_character = @morse_hash.hash[character]
+      unless encoded_character
+        return ""
       end
-      @queue.container.each do |char|
-        encoded_characters += encode_character(char)
-        if @queue.container.count >1
-          encoded_characters += "000"
-        end
-      end
-      delete_trailing_zeros(encoded_characters)
-      encoded_characters.delete(" ")
+      encoded_character
     end
 
     def delete_trailing_zeros(encoded_characters)
@@ -65,13 +84,6 @@ module Paramorse
       encoded_characters
     end
 
-    def encode_character(character)
-      encoded_character = @morse_hash.hash[character]
-      unless encoded_character
-        return ""
-      end
-      encoded_character
-    end
   end
 
   class Decoder
