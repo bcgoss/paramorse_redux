@@ -16,12 +16,20 @@ module Paramorse
       @container.pop
     end
 
+    def pop(number_of_pops)
+      results = []
+      number_of_pops.times do
+        results << @container.pop
+      end
+      results
+    end
+
     def peek(peek_length = 1)
-      @container[-peek_length..-1].reverse
+      @container[-peek_length..-1]
     end
 
     def tail(tail_length = 1)
-      @container[0..tail_length-1]
+      @container[0..tail_length-1].reverse
     end
 
     def flush
@@ -38,25 +46,6 @@ module Paramorse
       @morse_hash = MorseDictionary.new
       @queue = Queue.new
     end
-
-    # def encode(content)
-    #   content.downcase!
-    #   content.strip!
-    #   encoded_characters = ""
-    #   @queue.flush
-    #
-    #   content.chars.each do |char|
-    #     @queue.push(char)
-    #   end
-    #   @queue.container.each do |char|
-    #     encoded_characters += encode_character(char)
-    #     if @queue.container.count >1
-    #       encoded_characters += "000"
-    #     end
-    #   end
-    #   delete_trailing_zeros(encoded_characters)
-    #   encoded_characters.delete(" ")
-    # end
 
     def encode(content)
       content.downcase!
