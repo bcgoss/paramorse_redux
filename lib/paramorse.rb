@@ -78,8 +78,8 @@ module Paramorse
     end
 
     def delete_trailing_zeros(encoded_characters)
-      3.times do
-        encoded_characters.chop! if encoded_characters.end_with?("0")
+      until encoded_characters.end_with?("1")
+        encoded_characters.chop!
       end
       encoded_characters
     end
@@ -98,10 +98,13 @@ module Paramorse
         @morse_hash.hash.key(character)
       end
       sequence = decoded_characters.join
-      sequence = decoded_characters.join
       sequence.delete(" ")
       sequence
     end
+
+  end
+
+  class StreamDecoder
 
   end
 

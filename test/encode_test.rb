@@ -20,7 +20,7 @@ class EncoderTest < Minitest::Test
   def test_encode_1_char
     e = Paramorse::Encoder.new
 
-    # assert_equal "10111", e.encode("a")
+    assert_equal "10111", e.encode("a")
   end
 
   def test_encode_multiple_chars
@@ -61,7 +61,7 @@ class EncoderTest < Minitest::Test
   def test_can_encode_with_space
     e = Paramorse::Encoder.new
     assert_equal "1000100000010001", e.encode("ee ee")
-    # doesn't pass yet assert_equal "1000100000000000010001", e.encode(" ee ee ")
+    # assert_equal "1000100000000000010001", e.encode(" ee  ee ") # doesn't pass yet. multiple white spce is hard
 
   end
 
