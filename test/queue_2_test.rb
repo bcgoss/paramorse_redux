@@ -54,9 +54,9 @@ class QueueTest < Minitest::Test
     q.push(1)
 
     assert_equal [1], q.peek(1)
-    assert_equal [1,0], q.peek(2)
-    assert_equal [1,0,1], q.peek(3)
-    assert_equal [1,0,1,1], q.peek(4)
+    assert_equal [1,1], q.peek(2)
+    assert_equal [1,1,0], q.peek(3)
+    assert_equal [1,1,0,1], q.peek(4)
   end
 
   def test_tail_method
@@ -67,8 +67,8 @@ class QueueTest < Minitest::Test
     q.push(1)
 
     assert_equal [1], q.tail(1)
-    assert_equal [1,1], q.tail(2)
-    assert_equal [1,1,0], q.tail(3)
+    assert_equal [0,1], q.tail(2)
+    assert_equal [1,0,1], q.tail(3)
   end
 
   def test_flush_empty_queue
