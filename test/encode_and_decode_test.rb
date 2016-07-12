@@ -63,7 +63,7 @@ class EncodeAndDecodeTest < Minitest::Test
 
 
   def test_mean_stuff
-    # skip
+    skip
     e = Paramorse::Encoder.new
     d = Paramorse::Decoder.new
     test_string = "   lets see how EaSy   This Is   "
