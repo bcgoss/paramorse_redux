@@ -1,7 +1,7 @@
 require 'pry'
 require 'Minitest/autorun'
 require 'Minitest/pride'
-require './lib/paramorse.rb'
+require './lib/file_operation.rb'
 
 class FileEncoderTest < Minitest::Test
   def test_file_encoder_exists

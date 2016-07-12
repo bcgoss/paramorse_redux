@@ -1,12 +1,13 @@
 require 'pry'
 require './data/full_morse_hash'
 require './lib/decode_word'
+require './lib/encode_word'
 module Paramorse
 
   class Encoder
     def initialize
+      @encoder = Paramorse::EncodeWord.new
       @morse_hash = MorseDictionary.new
-      @queue = Queue.new
     end
 
     def encode(content)
@@ -14,32 +15,14 @@ module Paramorse
       content.strip!
       words = content.split(" ")
       morse_words = words.map do |word|
-        morse_chars = word.chars.map do |char|
-          encode_character(char)
-        end
-        morse_chars.join("000")
+        @encoder.encode(word)
       end
       morse_words.join("0000000")
-      # morse_characters = content.chars.map do |char|
-      #   #binding.pry if char == " "
-      #   encode_character(char)
-      # end
-      # morse_sequence = morse_characters.join("000")
-      # morse_sequence.delete(" ")
-    end
-
-
-    def encode_character(character)
-      encoded_character = @morse_hash.hash[character]
-      unless encoded_character
-        return ""
-      end
-      encoded_character
     end
 
     def delete_trailing_zeros(encoded_characters)
       until encoded_characters.end_with?("1")
-        encoded_characters.chop!
+        encoded_characters.chomp!("0")
       end
       encoded_characters
     end
@@ -59,15 +42,6 @@ module Paramorse
       end
       english_sequence = english_words.join(" ")
       english_sequence.strip
-      # morse_characters = morse_words.map do |morse_word|
-      #   morse_word.split("000")
-      # end
-      # decoded_characters = morse_characters.map do |character|
-      #   @morse_hash.hash.key(character)
-      # end
-      # sequence = decoded_characters.join
-      # sequence.delete(" ")
-      # sequence
     end
 
   end
@@ -87,54 +61,9 @@ module Paramorse
       code = @bit_queue.flush.join
       @decoder.decode(code)
     end
-  end
 
-  class FileEncoder
-    def initialize
-      @encoder = Paramorse::Encoder.new
-    end
-
-    def encode(plain_text_file_name, encoded_text_file_name)
-      plain_text_handle = File.open(plain_text_file_name, "r")
-      encoded_text_handle = File.open(encoded_text_file_name, "w")
-      plain_text_lines = []
-      plain_text_handle.each_line do |line|
-        plain_text_lines << line
-      end
-      encoded_lines = plain_text_lines.map do |line|
-        @encoder.encode(line)
-      end
-      count = 0
-      encoded_lines.each do |line|
-        count += encoded_text_handle.write(line + "\n")
-      end
-      count
-    end
-  end
-
-  class FileDecoder
-    def initialize
-      @decoder = Paramorse::Decoder.new
-    end
-
-    def decode(encoded_text_file_name, plain_text_file_name)
-      encoded_text_handle = File.open(encoded_text_file_name, "r")
-      plain_text_handle = File.open(plain_text_file_name, "w")
-
-      encoded_lines = []
-      encoded_text_handle.each_line do |line|
-        encoded_lines << line.chomp
-      end
-      plain_text_lines = encoded_lines.map do |line|
-        @decoder.decode(line)
-      end
-      count = 0
-      plain_text_lines.each do |line|
-        count += plain_text_handle.write(line + "\n")
-      end
-      encoded_text_handle.close
-      plain_text_handle.close
-      count
+    def check_for_word
+      
     end
   end
 end
