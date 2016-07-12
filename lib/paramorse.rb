@@ -16,7 +16,7 @@ module Paramorse
       @container.pop
     end
 
-    def pop(number_of_pops)
+    def pop_multiple(number_of_pops)
       results = []
       number_of_pops.times do
         results << @container.pop
@@ -25,11 +25,11 @@ module Paramorse
     end
 
     def peek(peek_length = 1)
-      @container[-peek_length..-1]
+      @container[-peek_length.. - 1]
     end
 
     def tail(tail_length = 1)
-      @container[0..tail_length-1].reverse
+      @container[0..tail_length - 1].reverse
     end
 
     def flush
@@ -51,10 +51,11 @@ module Paramorse
       content.downcase!
       content.strip!
       morse_characters = content.chars.map do |char|
+        #binding.pry if char == " "
         encode_character(char)
       end
       morse_sequence = morse_characters.join("000")
-      morse_sequence.delete(" ")
+      # morse_sequence.delete(" ")
     end
 
 
@@ -81,8 +82,12 @@ module Paramorse
     end
 
     def decode(morse_sequence)
-      spaces_added_sequence = morse_sequence.gsub("000000", "000 000")
-      morse_characters = spaces_added_sequence.split("000")
+      # spaces_added_sequence = morse_sequence.gsub("0000000", "000 000")
+      #binding.pry
+      morse_words = morse_sequence.split("0000000")
+      morse_characters = morse_words.map do |morse_word|
+        morse_word.split("000")
+      end
       decoded_characters = morse_characters.map do |character|
         @morse_hash.hash.key(character)
       end
