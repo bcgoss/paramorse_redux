@@ -39,6 +39,9 @@ module Paramorse
       end
       results
     end
+    def count
+      @container.length
+    end
   end
 
   class Encoder
@@ -113,14 +116,32 @@ module Paramorse
   end
 
   class StreamDecoder
+    attr_reader :bit_queue
     def initialize
-      @bit_queue = ParaMorse::Queue.new
+      @bit_queue = Paramorse::Queue.new
+      @decoder = Paramorse::Decoder.new
     end
+
     def receive(bit)
       @bit_queue.push(bit)
     end
-    def decode
 
+    def decode
+      code = ""
+      zeroes_in_a_row = 0
+      while zeroes_in_a_row < 3 && @bit_queue.count > 0 do
+        #if peek == 0
+        if @bit_queue.peek == 0
+          zeroes_in_a_row += 1
+        else
+          zeroes_in_a_row = 0
+        end
+        #pop a bit
+        code += @bit_queue.pop
+      end
+      @decoder.decode(code)
+      #if counter == 3
+      #decode
     end
   end
 end
