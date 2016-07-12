@@ -167,9 +167,8 @@ module Paramorse
 
       encoded_lines = []
       encoded_text_handle.each_line do |line|
-        encoded_lines << line
+        encoded_lines << line.chomp
       end
-      binding.pry
       plain_text_lines = encoded_lines.map do |line|
         @decoder.decode(line)
       end
@@ -177,6 +176,8 @@ module Paramorse
       plain_text_lines.each do |line|
         count += plain_text_handle.write(line + "\n")
       end
+      encoded_text_handle.close
+      plain_text_handle.close
       count
     end
   end
