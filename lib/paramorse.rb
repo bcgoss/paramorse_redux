@@ -90,7 +90,6 @@ module Paramorse
     end
 
     def decode(morse_sequence)
-      binding.pry if morse_sequence == '00000001'
       morse_words = morse_sequence.split("0000000")
       english_words = morse_words.map do |morse_word|
         english_letters = morse_word.split("000").map do |morse_chars|
@@ -114,8 +113,14 @@ module Paramorse
   end
 
   class StreamDecoder
+    def initialize
+      @bit_queue = ParaMorse::Queue.new
+    end
+    def receive(bit)
+      @bit_queue.push(bit)
+    end
+    def decode
 
+    end
   end
-
-
 end
