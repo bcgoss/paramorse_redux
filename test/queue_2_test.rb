@@ -1,7 +1,7 @@
 require 'pry'
 require 'Minitest/autorun'
 require 'Minitest/pride'
-require './lib/paramorse.rb'
+require './lib/queue.rb'
 
 class QueueTest < Minitest::Test
 

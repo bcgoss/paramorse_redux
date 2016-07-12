@@ -1,48 +1,7 @@
 require 'pry'
 require './data/full_morse_hash'
+require './lib/decode_word'
 module Paramorse
-
-  class Queue
-    attr_reader :container
-    def initialize
-      @container = []
-    end
-
-    def push(data)
-      @container.push(data)
-    end
-
-    def pop
-      @container.shift
-    end
-
-    def pop_multiple(number_of_pops)
-      results = []
-      number_of_pops.times do
-        results << @container.shift
-      end
-      results
-    end
-
-    def peek(peek_length = 1)
-      @container[0 .. peek_length - 1]
-    end
-
-    def tail(tail_length = 1)
-      @container[- tail_length .. - 1]
-    end
-
-    def flush
-      results = []
-      @container.length.times do
-        results << pop
-      end
-      results
-    end
-    def count
-      @container.length
-    end
-  end
 
   class Encoder
     def initialize
@@ -90,16 +49,13 @@ module Paramorse
   class Decoder
     def initialize
       @morse_hash = MorseDictionary.new
+      @decoder = DecodeWord.new
     end
 
     def decode(morse_sequence)
       morse_words = morse_sequence.split("0000000")
       english_words = morse_words.map do |morse_word|
-        english_letters = morse_word.split("000").map do |morse_chars|
-          morse_chars.chomp!("0")
-          @morse_hash.hash.key(morse_chars)
-        end
-        english_letters.join
+        @decoder.decode(morse_word)
       end
       english_sequence = english_words.join(" ")
       english_sequence.strip

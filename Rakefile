@@ -1,5 +1,5 @@
 require "rake/testtask"
-
+desc "Test all the things"
 task default: :test
 
 Rake::TestTask.new do |t|
