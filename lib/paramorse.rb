@@ -96,6 +96,7 @@ module Paramorse
       morse_words = morse_sequence.split("0000000")
       english_words = morse_words.map do |morse_word|
         english_letters = morse_word.split("000").map do |morse_chars|
+          morse_chars.chomp!("0")
           @morse_hash.hash.key(morse_chars)
         end
         english_letters.join
@@ -127,21 +128,8 @@ module Paramorse
     end
 
     def decode
-      code = ""
-      zeroes_in_a_row = 0
-      while zeroes_in_a_row < 3 && @bit_queue.count > 0 do
-        #if peek == 0
-        if @bit_queue.peek == 0
-          zeroes_in_a_row += 1
-        else
-          zeroes_in_a_row = 0
-        end
-        #pop a bit
-        code += @bit_queue.pop
-      end
+      code = @bit_queue.flush.join
       @decoder.decode(code)
-      #if counter == 3
-      #decode
     end
   end
 end

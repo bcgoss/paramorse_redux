@@ -24,9 +24,23 @@ class StreamDecoderTest < Minitest::Test
     assert_equal "e", stream.decode
   end
 
-  def test_it_decodes_the_word_the
+  def test_it_decodes_the_word_hi
     stream = Paramorse::StreamDecoder.new
-    
-    assert_equal "the", stream.decode
+    stream.receive("1")
+    stream.receive("0")
+    stream.receive("1")
+    stream.receive("0")
+    stream.receive("1")
+    stream.receive("0")
+    stream.receive("1")
+    stream.receive("0")
+    stream.receive("0")
+    stream.receive("0")
+    stream.receive("1")
+    stream.receive("0")
+    stream.receive("1")
+    stream.receive("0")
+# => "hi"
+    assert_equal "hi", stream.decode
   end
 end
