@@ -57,6 +57,7 @@ class QueueTest < Minitest::Test
     assert_equal [1,1], q.peek(2)
     assert_equal [1,1,0], q.peek(3)
     assert_equal [1,1,0,1], q.peek(4)
+    assert_equal [1,1,0,1], q.peek(50)
   end
 
   def test_tail_method
