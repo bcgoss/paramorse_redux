@@ -46,9 +46,13 @@ class StreamDecoderTest < Minitest::Test
     assert_equal "hi", stream.decode
   end
 
-  def test_it_finds_letters_in_streams
+  def test_it_knows_how_to_find_letters
     stream = Paramorse::StreamDecoder.new
     assert_respond_to stream, :contains_a_letter?
+  end
+  def test_it_finds_letters_in_streams
+    stream = Paramorse::StreamDecoder.new
+
     encoder = Paramorse::Encoder.new
     phrase = encoder.encode("ab")
     decoded_letters = []

@@ -26,14 +26,14 @@ module Paramorse
         return false
       end
     end
-    
+
     def decode
       code = @bit_queue.flush
-      @decoder.decode(code)
+      @letter_queue.flush + @decoder.decode(code)
     end
 
     def decode_letter
-      if @bit_queue.join.include? "1000"
+      if @bit_queue.peek(22).join.include? "1000"
         code = []
         until @bit_queue.peek(3).join == "000"
           code << @bit_queue.pop
@@ -44,33 +44,12 @@ module Paramorse
       while bit_queue.peek(7).join == "0000000"
         code = []
         code = pop_multiple(7)
-        letter_queue.push(@decoder.decode(code.join))
+        @letter_queue.push(@decoder.decode(code.join))
       end
 
       if bit_queue.peek(4).join == "0001"
         @bit_queue.pop_multiple(3)
       end
-    end
-
-
-    def get_letter_or_space
-      # if @bit_queue.join.include? "1000"
-      #   code = []
-    #     until @bit_queue.peek(3).join == "000"
-    #       code << @bit_queue.pop
-    #     end
-    #     @letter_queue.push(@decoder.decode(code.join))
-    #   end
-    #
-    #   while bit_queue.peek(7).join == "0000000"
-    #     code = []
-    #     code = pop_multiple(7)
-    #     letter_queue.push(@decoder.decode(code.join))
-    #   end
-    #
-    #   if bit_queue.peek(4).join == "0001"
-    #     @bit_queue.pop_multiple(3)
-    #   end
     end
   end
 end
