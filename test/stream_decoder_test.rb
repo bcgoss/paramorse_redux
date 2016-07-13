@@ -1,7 +1,7 @@
 require 'pry'
 require 'Minitest/autorun'
 require 'Minitest/pride'
-require './lib/paramorse.rb'
+require './lib/stream_decoder'
 
 class StreamDecoderTest < Minitest::Test
 
@@ -42,5 +42,21 @@ class StreamDecoderTest < Minitest::Test
     stream.receive("0")
 # => "hi"
     assert_equal "hi", stream.decode
+  end
+
+  def test_it_finds_letters_in_streams
+    stream = Paramorse::StreamDecoder.new
+    assert_respond_to stream, :contains_a_letter?
+    encoder = Paramorse::Encoder.new
+    phrase = encoder.encode("ab")
+    decoded_letters = []
+    phrase.chars do |bit|
+      stream.receive(bit)
+      if stream.contains_a_letter?
+        decoded_letters << stream.decode
+      end
+    end
+    decoded_letters << stream.decode
+    assert_equal "ab", decoded_letters.join
   end
 end

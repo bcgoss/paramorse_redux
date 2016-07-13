@@ -41,29 +41,6 @@ module Paramorse
         @decoder.decode(morse_word)
       end
       english_sequence = english_words.join(" ")
-      english_sequence.strip
-    end
-
-  end
-
-  class StreamDecoder
-    attr_reader :bit_queue
-    def initialize
-      @bit_queue = Paramorse::Queue.new
-      @decoder = Paramorse::Decoder.new
-    end
-
-    def receive(bit)
-      @bit_queue.push(bit)
-    end
-
-    def decode
-      code = @bit_queue.flush.join
-      @decoder.decode(code)
-    end
-
-    def check_for_word
-      
     end
   end
 end
