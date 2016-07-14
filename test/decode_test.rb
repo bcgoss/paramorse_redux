@@ -34,9 +34,9 @@ class DecoderTest < Minitest::Test
 
     assert_equal "ee", d.decode("10001")
     #assert_equal "  ", d.decode("00000000000000") #spec: discard leading and trailing 0's
-    assert_equal "e", d.decode("00000001")
+    assert_equal " e", d.decode("00000001")
     assert_equal "e", d.decode("10000000")
-    assert_equal "e", d.decode("0000000100000000000000")
+    assert_equal " e", d.decode("0000000100000000000000")
     assert_equal "badger", d.decode("11101010100010111000111010100011101110100010001011101")
   end
 

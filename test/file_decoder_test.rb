@@ -13,6 +13,6 @@ class FileDecoderTest < Minitest::Test
     file_decoder = Paramorse::FileDecoder.new
     assert_respond_to file_decoder, :decode
 
-    assert_equal 3, file_decoder.decode("encoded_text.txt", "decoded_text.txt")
+    assert_equal 3, file_decoder.decode("encoded_test_file.txt", "decoded_text.txt")
   end
 end

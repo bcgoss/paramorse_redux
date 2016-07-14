@@ -46,6 +46,14 @@ class QueueTest < Minitest::Test
     assert_equal 1, q.pop
   end
 
+  def test_it_pops_multiple
+    q = Paramorse::Queue.new
+    q.push("1")
+    q.push("0")
+    q.push("1")
+
+    assert_equal ["1","0","1"], q.pop_multiple(3)
+
   def test_peek_method
     q = Paramorse::Queue.new
     q.push(1)

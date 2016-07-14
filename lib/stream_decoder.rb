@@ -9,7 +9,6 @@ module Paramorse
       @bit_queue = Paramorse::Queue.new
       @letter_queue = Paramorse::Queue.new
       @decoder = Paramorse::Decoder.new
-      @signal = false
     end
 
     def receive(bit)
@@ -28,17 +27,19 @@ module Paramorse
     end
 
     def decode
-      code = @bit_queue.flush
-      @letter_queue.flush + @decoder.decode(code)
+      code = @bit_queue.flush.join
+      @letter_queue.flush.join + @decoder.decode(code)
     end
 
     def decode_letter
       if @bit_queue.peek(22).join.include? "1000"
+        #make method
         code = []
         until @bit_queue.peek(3).join == "000"
           code << @bit_queue.pop
         end
         @letter_queue.push(@decoder.decode(code.join))
+      end
       end
 
       while bit_queue.peek(7).join == "0000000"
