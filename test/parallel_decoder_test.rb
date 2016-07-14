@@ -47,6 +47,7 @@ class ParallelDecoderTest < Minitest::Test
   def test_it_does_the_thing
     decoder = Paramorse::ParallelDecoder.new
     
-    assert_equal 4, decoder.decode_from_files(1, './test/data/fixed*.txt', './test/data/decoded.txt')
+    assert_equal 905, decoder.decode_from_files(1, './test/data/obama*.txt', './test/data/decoded.txt')
+    assert_equal 17853, decoder.decode_from_files(8, './test/data/obama*.txt', './test/data/decoded.txt')
   end
 end
