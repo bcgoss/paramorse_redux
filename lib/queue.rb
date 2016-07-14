@@ -36,6 +36,7 @@ module Paramorse
       end
       results
     end
+    
     def count
       @container.length
     end

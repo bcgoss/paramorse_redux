@@ -1,6 +1,4 @@
-# require 'pry'
-# require 'Minitest/autorun'
-# require 'Minitest/pride'
+# require './test/test_helper'
 # require './lib/parallel_decoder'
 #
 # class ParalellDecoderTest < Minitest::Test

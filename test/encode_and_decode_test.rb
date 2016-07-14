@@ -1,6 +1,4 @@
-require 'pry'
-require 'Minitest/autorun'
-require 'Minitest/pride'
+require './test/test_helper'
 require './lib/paramorse.rb'
 
 class EncodeAndDecodeTest < Minitest::Test

@@ -52,20 +52,39 @@ class StreamDecoderTest < Minitest::Test
     encoder = Paramorse::Encoder.new
 
     phrase = encoder.encode("ab")
-    phrase.chars do |bit|
+    phrase.chars.each do |bit|
       stream.bit_queue.push(bit)
     end
-
     assert stream.contains_a_letter?
+    assert_equal "a", stream.get_letter.join
     # decoded_letters << stream.decode
     # assert_equal "ab", decoded_letters.join
   end
 
-  def test_it_finds_a_letter_in_streams
-    skip
-    #known issue, doesn't detect the last letter in the queu
-    #work around: Use decode to get the last letter
+  def test_it_finds_spaces
+    stream = Paramorse::StreamDecoder.new
+    encoder = Paramorse::Encoder.new
+    phrase = encoder.encode(" ")
+    phrase.chars.each do |bit|
+      stream.bit_queue.push(bit)
+    end
+    assert stream.contains_a_letter?
+    assert_equal " ", stream.get_space.join
   end
 
+  def test_it_finds_a_letter_in_streams
+    skip
+    #known issue, doesn't detect the last letter in the queue, no 000
+    #work around: Use decode to get the last letter
+    binding.pry
+    stream = Paramorse::StreamDecoder.new
+    encoder = Paramorse::Encoder.new
 
+    phrase = encoder.encode("a")
+    phrase.chars do |bit|
+      stream.bit_queue.push(bit)
+    end
+
+    assert_equal "a", stream.get_letter.join
+  end
 end

@@ -33,24 +33,30 @@ module Paramorse
 
     def decode_letter
       if @bit_queue.peek(22).join.include? "1000"
-        #make method
-        code = []
-        until @bit_queue.peek(3).join == "000"
-          code << @bit_queue.pop
-        end
-        @letter_queue.push(@decoder.decode(code.join))
-      end
+        get_letter
       end
 
       while bit_queue.peek(7).join == "0000000"
-        code = []
-        code = pop_multiple(7)
-        @letter_queue.push(@decoder.decode(code.join))
+        get_space
       end
 
       if bit_queue.peek(4).join == "0001"
         @bit_queue.pop_multiple(3)
       end
+    end
+
+    def get_letter
+      code = []
+      until @bit_queue.peek(3).join == "000"
+        code << @bit_queue.pop
+      end
+      @letter_queue.push(@decoder.decode(code.join))
+    end
+
+    def get_space
+      code = []
+      code = @bit_queue.pop_multiple(7)
+      @letter_queue.push(@decoder.decode(code.join))
     end
   end
 end

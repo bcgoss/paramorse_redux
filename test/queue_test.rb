@@ -1,6 +1,4 @@
-require 'pry'
-require 'Minitest/autorun'
-require 'Minitest/pride'
+require './test/test_helper'
 require './lib/queue.rb'
 
 class QueueTest < Minitest::Test
@@ -53,6 +51,18 @@ class QueueTest < Minitest::Test
     q.push("1")
 
     assert_equal ["1","0","1"], q.pop_multiple(3)
+  end
+
+  def test_it_counts
+    q = Paramorse::Queue.new
+    q.push("1")
+    q.push("1")
+    q.push("1")
+    q.push("0")
+    q.push("1")
+
+    assert_equal 5, q.count
+  end
 
   def test_peek_method
     q = Paramorse::Queue.new
