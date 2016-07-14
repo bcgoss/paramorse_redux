@@ -26,20 +26,20 @@ class ParallelEncoderTest < Minitest::Test
 
   def test_it_writes_messages
     encoder = Paramorse::ParallelEncoder.new
-    encoder.output_files << File.open("./test/data/output00.txt")
-    encoder.output_files << File.open("./test/data/output01.txt")
-    
-    assert_equal 106, encoder.write_message(["hello","world"])
+    encoder.output_files << File.open("./test/data/hello.txt","w")
+    encoder.output_files << File.open("./test/data/world.txt", "w")
+
+    assert_equal 110, encoder.write_message(["hlowrd","el ol"])
   end
-  
+
   def test_it_divides_messages
     encoder = Paramorse::ParallelEncoder.new
     encoder.output_files << File.open("./test/data/output00.txt")
     encoder.output_files << File.open("./test/data/output01.txt")
-    
+
     encoder.divide_message("hello world")
     assert_equal 2, encoder.divide_message("hello world").count
   end
-  
- 
+
+
 end
