@@ -1,6 +1,6 @@
 require './test/test_helper'
 require './lib/parallel_decoder'
-
+require './lib/queue'
 class ParallelDecoderTest < Minitest::Test
   def test_it_exists
     assert Paramorse::ParallelDecoder.new
@@ -22,15 +22,31 @@ class ParallelDecoderTest < Minitest::Test
   end
   
   def test_it_reads_into_queues
-      
+      decoder = Paramorse::ParallelDecoder.new
+      decoder.open_files("./test/data/decoded.txt", 8, "./test/data/output*.txt")
+      assert_equal  8, decoder.read_into_queues.count
   end
   
   def test_it_merges_queues
+    decoder = Paramorse::ParallelDecoder.new
+    queues = []
+    queues << Paramorse::Queue.new
+    queues << Paramorse::Queue.new
+    "hello world".chars.each_with_index do |char, index|
+      queues[index % 2].push(char)
+    end
+    assert_equal "hello world", decoder.merge_queues(queues)
   end
   
   def test_it_writes_a_message
     decoder = Paramorse::ParallelDecoder.new
     decoder.target_file = File.open("./test/data/test.txt", "w")
     assert_equal 11, decoder.write_file("hello world")
+  end
+  
+  def test_it_does_the_thing
+    decoder = Paramorse::ParallelDecoder.new
+    
+    assert_equal 4, decoder.decode_from_files(1, './test/data/fixed*.txt', './test/data/decoded.txt')
   end
 end

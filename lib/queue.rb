@@ -40,5 +40,9 @@ module Paramorse
     def count
       @container.length
     end
+    
+    def is_empty?
+      count != 0
+    end
   end
 end
