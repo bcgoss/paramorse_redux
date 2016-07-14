@@ -60,7 +60,9 @@ class EncoderTest < Minitest::Test
   def test_can_encode_with_space
     e = Paramorse::Encoder.new
     assert_equal "10001000000010001", e.encode("ee ee")
-    # assert_equal "00000001000100000000000000100010000000", e.encode(" ee  ee ") # doesn't pass yet. multiple white spce is hard
+    assert_equal "100010000000", e.encode("ee ")
+    assert_equal "100000000000000", e.encode("e  ")
+    # assert_equal "00000001000100000000000000100010000000", e.encode(" ee  ee ") # doesn't pass yet. multiple internal white spce is hard
 
   end
 

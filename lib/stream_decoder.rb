@@ -4,7 +4,7 @@ require './lib/paramorse'
 
 module Paramorse
   class StreamDecoder
-    attr_reader :bit_queue
+    attr_reader :bit_queue, :letter_queue
     def initialize
       @bit_queue = Paramorse::Queue.new
       @letter_queue = Paramorse::Queue.new
