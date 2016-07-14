@@ -1,15 +1,20 @@
+require './lib/paramorse'
+require './lib/file_operation'
 module Paramorse
   class ParallelEncoder
+    attr_accessor :output_files
     def initialize
       @output_files = []
+      @message_fragments = []
+      @encoder = Paramorse::Encoder.new
+      @file_writer = Paramorse::FileEncoder.new
     end
+    
     def encode_from_file(source_file, file_count, output_format)
       open_files(source_file, file_count, output_format)
-      input_strings = ""
-      @input_file.each_line do |line|
-        input_strings += line.gsub("\n", "")
-      end
-      transmit_message(input_strings)
+      input = @input_file.read.gsub("\n", "")
+      input_as_array = divide_message(input)
+      write_message(input_as_array)
     end
 
     def open_files(source_file, file_count, output_format)
@@ -20,11 +25,24 @@ module Paramorse
       end
       @output_files.count
     end
-
-    def transmit_message(input_strings)
-      divide_message(input_strings)
-      
+    
+    def divide_message(input)
+      input_as_array = []
+      file_count = @output_files.count
+      file_count.times { input_as_array << "" }
+      input.chars.each_with_index do |char, index|
+        current_file = index % file_count
+        input_as_array[current_file] += char
+      end
+      return input_as_array
     end
-
+    
+    def write_message(input_strings)
+      count = 0
+      @output_files.each_with_index do |output_file, index|
+        count += @file_writer.write_file(output_file, [input_strings[index]])
+      end
+      count 
+    end
   end
 end
